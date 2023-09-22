@@ -1,0 +1,20 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: sqlserver-debezium-connector
+  labels:
+    strimzi.io/cluster: dc1-connect-cluster
+spec:
+  class: io.debezium.connector.sqlserver.SqlServerConnector
+  tasksMax: 1
+  config:
+    database.hostname: "server.mssql.svc"
+    database.port: "1433"
+    database.user: "sa"
+    database.password: "Abcd1234"
+    database.names: "OrdersDB"
+    database.encrypt: false
+    topic.prefix: "server.mssql"
+    table.include.list: "dbo.ItemDescription"
+    schema.history.internal.kafka.bootstrap.servers: "dc1-cluster-kafka-bootstrap:9092"
+    schema.history.internal.kafka.topic: "server.mssql.schema-changes"

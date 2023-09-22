@@ -1,0 +1,44 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mssql-sql
+data:
+  mssql-sql.sql: |-
+    -- Create a new database called 'InternationalDB'
+    -- Connect to the 'master' database to run this snippet
+    USE master
+    GO
+    -- Create the new database if it does not exist already
+    IF NOT EXISTS (
+        SELECT name
+            FROM sys.databases
+            WHERE name = N'OrdersDB'
+    )
+    CREATE DATABASE OrdersDB
+    GO
+    -- Connect to the 'OrdersDB' database to run this snippet
+    USE OrdersDB
+    GO
+    -- Create a new table called 'ItemDescription' in schema 'dbo'
+    -- Drop the table if it already exists
+    IF OBJECT_ID('dbo.ItemDescription', 'U') IS NOT NULL
+    DROP TABLE dbo.ItemDescription
+    GO
+    -- Create the table in the specified schema
+    CREATE TABLE dbo.ItemDescription
+    (
+        Id [NVARCHAR](36) NOT NULL PRIMARY KEY, -- primary key column
+        Description [NVARCHAR](256) NOT NULL
+        -- specify more columns here
+    );
+    GO
+    -- Enable Database for CDC template
+    EXEC sys.sp_cdc_enable_db
+    GO
+    -- Enable a Table
+    EXEC sys.sp_cdc_enable_table
+    @source_schema = N'dbo',
+    @source_name = N'ItemDescription',
+    @role_name = NULL,
+    @supports_net_changes = 1
+    GO

@@ -1,0 +1,40 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaMirrorMaker2
+metadata:
+  name: dc2-mm2-cluster
+  labels:
+    app: dc2-mm2-cluster
+spec:
+  version: 3.4.0
+  replicas: 1
+  connectCluster: "dc2-cluster"
+  clusters:
+    - alias: "dc1-cluster"
+      bootstrapServers: dc1-cluster-kafka-bootstrap-streams.${DOMAIN}:443
+      tls:
+        trustedCertificates:
+          - secretName: dc1-cluster-cluster-ca-cert
+            certificate: ca.crt
+    - alias: "dc2-cluster"
+      bootstrapServers: dc2-cluster-kafka-bootstrap:9092
+      config:
+        config.storage.replication.factor: -1
+        offset.storage.replication.factor: -1
+        status.storage.replication.factor: -1
+  mirrors:
+    - sourceCluster: "dc1-cluster"
+      targetCluster: "dc2-cluster"
+      sourceConnector:
+        config:
+          replication.factor: -1
+          offset-syncs.topic.replication.factor: -1
+          sync.topic.acls.enabled: "false"
+      heartbeatConnector:
+        config:
+          heartbeats.topic.replication.factor: -1
+      checkpointConnector:
+        config:
+          checkpoints.topic.replication.factor: -1
+          sync.group.offsets.enabled: true
+      topicsPattern: ".*"
+      groupsPattern: ".*"

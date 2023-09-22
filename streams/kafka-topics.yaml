@@ -1,0 +1,38 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: audit
+  labels:
+    strimzi.io/cluster: dc1-cluster
+spec:
+  partitions: 10
+  replicas: 3
+  config:
+    retention.ms: 7200000
+    segment.bytes: 1073741824
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: raw
+  labels:
+    strimzi.io/cluster: dc1-cluster
+spec:
+  partitions: 10
+  replicas: 3
+  config:
+    retention.ms: 7200000
+    segment.bytes: 1073741824
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: processed
+  labels:
+    strimzi.io/cluster: dc1-cluster
+spec:
+  partitions: 10
+  replicas: 3
+  config:
+    retention.ms: 7200000
+    segment.bytes: 1073741824

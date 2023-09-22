@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: infinispan-config
+data:
+    infinispan-config.yaml: >
+      infinispan:
+        cacheContainer:
+          caches:
+            base-template:
+              distributedCacheConfiguration:
+                expiration:
+                  lifespan: "300000"

@@ -1,0 +1,22 @@
+apiVersion: infinispan.org/v1
+kind: Infinispan
+metadata:
+  name: infinispan
+  annotations:
+    infinispan.org/monitoring: 'true'
+spec:
+  replicas: 2
+  version: 8.4.3-1
+  configMapName: infinispan-config
+  container:
+    cpu: "2000m:1000m"
+    memory: "2Gi:1Gi"
+  security:
+    endpointEncryption:
+      type: None
+    endpointAuthentication: false
+  service:
+    type: DataGrid
+    container:
+      storage: 2Gi
+      ephemeralStorage: true

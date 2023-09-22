@@ -1,0 +1,14 @@
+apiVersion: infinispan.org/v2alpha1
+kind: Cache
+metadata:
+  name: item-description-cache
+spec:
+  clusterName: infinispan
+  name: item-description-cache
+  template: |-
+    distributedCache:
+      mode: "SYNC"
+      owners: "2"
+      statistics: "true"
+      encoding:
+        mediaType: "application/x-protostream"

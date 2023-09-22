@@ -1,0 +1,17 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  labels:
+    dashboards: "strimzi"
+spec:
+  config:
+    log:
+      mode: "console"
+    auth.anonymous:
+      enabled: "true"
+      org_name: "Main Org."
+      org_role: "Admin"
+    auth:
+      disable_login_form: "true"
+      disable_signout_menu: "true"

@@ -1,0 +1,24 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: dc1-connect-cluster
+  annotations:
+    strimzi.io/use-connector-resources: "true"
+spec:
+  version: 3.4.0
+  replicas: 1
+  bootstrapServers: "dc1-cluster-kafka-bootstrap:9092"
+  build:
+    output:
+      type: docker
+      image: "image-registry.openshift-image-registry.svc:5000/streams/kafka-connect-build:latest"
+    plugins:
+      - name: debezium-connector-sqlserver
+        artifacts:
+          - type: zip
+            url: "https://maven.repository.redhat.com/ga/io/debezium/debezium-connector-sqlserver/2.1.4.Final-redhat-00001/debezium-connector-sqlserver-2.1.4.Final-redhat-00001-plugin.zip"
+  config:
+    group.id: connect-cluster
+    offset.storage.topic: connect-cluster-offsets
+    config.storage.topic: connect-cluster-configs
+    status.storage.topic: connect-cluster-status
