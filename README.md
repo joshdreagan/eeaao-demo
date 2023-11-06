@@ -67,6 +67,7 @@ __AMQ Streams__
 # Create/configure the AMQ Streams cluster.
 cd "${PROJECT_ROOT}/streams"
 oc new-project streams
+oc -n streams apply -f ./kafka-metrics-configmap.yaml
 oc -n streams apply -f ./kafka-cluster.yaml
 oc -n streams get secret dc1-cluster-cluster-ca-cert -o jsonpath='{.data.ca\.crt}' | base64 -d > ${PROJECT_ROOT}/tls/dc1-ca.crt
 oc -n streams apply -f ./kafka-topics.yaml
