@@ -12,6 +12,7 @@
   <packaging>pom</packaging>
 
   <modules>
+		<module>item-description-syncer</module>
 		<module>order-splitter</module>
     <module>order-processor</module>
   </modules>

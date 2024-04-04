@@ -101,10 +101,9 @@ __Camel__
 #
 cd "${PROJECT_ROOT}/camel"
 oc new-project camel
-oc -n camel create configmap item-description-syncer-configmap --from-file=application.properties=./item-description-syncer/item-description-syncer-configmap.properties
-kamel run -n camel --name item-description-syncer --config configmap:item-description-syncer-configmap ./item-description-syncer/ItemDescriptionSyncer.java
 
 mvn clean install
+pushd item-description-syncer; mvn -P openshift oc:deploy; popd
 pushd order-splitter; mvn -P openshift oc:deploy; popd
 pushd order-processor; mvn -P openshift oc:deploy; popd
 

@@ -1,0 +1,29 @@
+# Servlet Container & Health Setup
+server:
+  address: 0.0.0.0
+management:
+  endpoints:
+    web.exposure.include: info,health,camelroutes
+  endpoint:
+  health:
+    enabled: true
+    camelroutes:
+      enabled: true
+      read-only: true
+
+# Camel Spring Boot
+camel:
+  springboot:
+    name: item-description-syncer
+  component:
+    kafka.configuration:
+      brokers: "localhost:9092"
+      groupId: item-description-syncer
+    infinispan:
+      hosts: "localhost"
+
+# Logging
+logging:
+  config: classpath:logback.xml
+  level:
+    com.redhat.examples: INFO

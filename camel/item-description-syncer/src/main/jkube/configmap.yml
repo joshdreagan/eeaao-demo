@@ -1,0 +1,6 @@
+metadata:
+  name: ${project.artifactId}-configmap
+data:
+  application.properties: |-
+    camel.component.kafka.configuration.brokers=dc1-cluster-kafka-bootstrap.streams.svc:9092
+    camel.component.infinispan.hosts=infinispan.datagrid.svc
