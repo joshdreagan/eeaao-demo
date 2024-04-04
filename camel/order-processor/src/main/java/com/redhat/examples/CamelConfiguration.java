@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 public class CamelConfiguration extends RouteBuilder {
 
   private static final Logger log = LoggerFactory.getLogger(CamelConfiguration.class);
-  
+
   @Bean
   @SuppressWarnings("unused")
   private AggregationStrategy descriptionEnrichmentStrategy() {
@@ -45,13 +45,13 @@ public class CamelConfiguration extends RouteBuilder {
       return original;
     };
   }
-  
+
   @Override
   public void configure() throws Exception {
     from("kafka:raw?autoOffsetReset=earliest&groupId=camel-processor")
       .log(LoggingLevel.INFO, log, "Picked up raw order: [${body}]")
       .unmarshal().jaxb("com.redhat.examples.xml")
-      .to("dozer:rawToProcessed?sourceModel=com.redhat.examples.xml.RawOrder&targetModel=com.redhat.examples.json.ProcessedOrder")
+			.to("language:groovy:resource:classpath:/transformations/raw-order-to-processed-order.groovy")
       .process((exchange) -> {
         exchange.getIn().getBody(ProcessedOrder.class).setId(UUID.randomUUID().toString());
       })
@@ -63,7 +63,7 @@ public class CamelConfiguration extends RouteBuilder {
       .log(LoggingLevel.INFO, log, "Sending processed order: [${body}]")
       .to(ExchangePattern.InOnly, "kafka:processed")
     ;
-    
+
     from("direct:fetchDescription")
       .setHeader("ItemID", simple("${body.item}"))
       .setHeader(InfinispanConstants.KEY, header("ItemID"))

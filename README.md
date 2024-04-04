@@ -169,7 +169,7 @@ go
 To upload order data you can use `curl` (as seen below), or you can use the upload form at "http://order-splitter-camel.${DOMAIN}/upload.html".
 
 ```
-cd "${PROJECT_ROOT}/camel/order-splitter/srt/test/data"
+cd "${PROJECT_ROOT}/camel/order-splitter/src/test/data"
 curl -X POST -F '@file=@./orders-01.xml' "http://order-splitter-camel.${DOMAIN}/camel/files/"
 ```
 

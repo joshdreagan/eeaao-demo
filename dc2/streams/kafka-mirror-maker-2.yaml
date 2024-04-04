@@ -5,7 +5,7 @@ metadata:
   labels:
     app: dc2-mm2-cluster
 spec:
-  version: 3.4.0
+  version: 3.6.0
   replicas: 1
   connectCluster: "dc2-cluster"
   clusters:

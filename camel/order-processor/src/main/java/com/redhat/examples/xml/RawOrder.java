@@ -16,11 +16,11 @@
  */
 package com.redhat.examples.xml;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "order")
 @XmlType(propOrder = { "customerId",
@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlType;
                        "quantity" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RawOrder {
-  
+
   @XmlElement(name = "customer-id")
   private String customerId;
-  
+
   @XmlElement(name = "item-id")
   private String itemId;
-  
+
   @XmlElement()
   private int quantity;
 
